@@ -196,13 +196,25 @@ Extract (coefficient, [factor1, factor2, ...]) from a monomial.
 """
 function _factorize_monomial(mono::Num, vars::Vector{Num})
     ex = Symbolics.unwrap(mono)
+
+    if Symbolics.ispow(ex)
+        base, exp = Symbolics.arguments(ex)
+        base = Num(base)
+        
+        exp_val = Symbolics.value(exp)
+        exp_int = Int(exp_val)
+
+        return Num(1), fill(base, exp_int)
+    end
+
     if Symbolics.ismul(ex)
         args = Symbolics.arguments(ex)
         coeff = Num(1)
         factors = Num[]
         for a in args
             na = Num(a)
-            if na in vars
+            # if na in vars
+            if any(v -> Symbolics.isequal(v, na), vars)
                 push!(factors, na)
             else
                 coeff = coeff * na
