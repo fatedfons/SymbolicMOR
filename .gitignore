@@ -1,0 +1,14 @@
+# Julia
+Manifest.toml
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+/docs/build/
+
+# Outputs
+*.png
+*.pdf
+*.csv
+
+# OS
+.DS_Store
